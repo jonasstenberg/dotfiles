@@ -7,7 +7,7 @@ local opt = vim.opt
 -- vim.cmd 'filetype plugin on'
 
 opt.clipboard = 'unnamed'
-opt.completeopt = {'menu', 'menuone', 'noselect'}
+opt.completeopt = { 'menu', 'menuone', 'noselect' }
 opt.mouse = 'a'
 opt.splitright = true
 opt.splitbelow = true
@@ -56,7 +56,7 @@ vim.cmd('autocmd VimResized * wincmd =')
 vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
 
 -- Trim trailing whitespace on save
-vim.cmd[[ autocmd BufWritePre * :%s/\s\+$//e ]]
+vim.cmd [[ autocmd BufWritePre * :%s/\s\+$//e ]]
 
 -- global mark I for last edit
 vim.cmd [[autocmd InsertLeave * execute 'normal! mI']]
@@ -72,3 +72,28 @@ augroup END
 -- colorscheme global defaults
 o.background = 'dark'
 o.termguicolors = true
+
+local function map(mode, lhs, rhs, opts)
+    local options = { noremap = true }
+    if opts then options = vim.tbl_extend('force', options, opts) end
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+-- go to init.lua
+map('n', '<leader>v', ':e $MYVIMRC<CR>')
+
+-- set relative numbers
+map('n', '<C-n>', ':set relativenumber!<CR>')
+
+-- toggle between panes more easily
+map('n', '<C-j>', '<C-W><C-j>')
+map('n', '<C-k>', '<C-W><C-k>')
+map('n', '<C-l>', '<C-W><C-l>')
+map('n', '<C-h>', '<C-W><C-h>')
+
+-- tab works on visual selections
+map('x', '<', '<gv')
+map('x', '>', '>gv')
+
+-- pressing esc removes highlighting
+map('n', '<esc>', ':noh<return><esc>')

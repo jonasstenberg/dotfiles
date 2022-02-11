@@ -69,3 +69,7 @@ _tmuxinator() {
 }
 
 compdef _tmuxinator tmuxinator mux
+
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
