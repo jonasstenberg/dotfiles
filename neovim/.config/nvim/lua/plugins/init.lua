@@ -54,6 +54,7 @@ return require('packer').startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
     }
     use_with_config('RRethy/vim-illuminate', 'illuminate')
+    use_with_config('folke/trouble.nvim', 'trouble')
 
     -- treesitter
     use({

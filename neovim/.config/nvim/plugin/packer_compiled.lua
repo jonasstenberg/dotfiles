@@ -196,6 +196,12 @@ _G.packer_plugins = {
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/schemastore.nvim",
     url = "https://github.com/b0o/schemastore.nvim"
   },
+  ["trouble.nvim"] = {
+    config = { "require('plugins.trouble')" },
+    loaded = true,
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/trouble.nvim",
+    url = "https://github.com/folke/trouble.nvim"
+  },
   ["vim-commentary"] = {
     loaded = true,
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/vim-commentary",
@@ -246,22 +252,26 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: neogen
-time([[Config for neogen]], true)
-require('plugins.neogen')
-time([[Config for neogen]], false)
--- Config for: iswap.nvim
-time([[Config for iswap.nvim]], true)
-require('plugins.iswap')
-time([[Config for iswap.nvim]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-require('plugins.autopairs')
-time([[Config for nvim-autopairs]], false)
+-- Config for: trouble.nvim
+time([[Config for trouble.nvim]], true)
+require('plugins.trouble')
+time([[Config for trouble.nvim]], false)
 -- Config for: fzf-lua
 time([[Config for fzf-lua]], true)
 require('plugins.fzf')
 time([[Config for fzf-lua]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+require('plugins.autopairs')
+time([[Config for nvim-autopairs]], false)
+-- Config for: iswap.nvim
+time([[Config for iswap.nvim]], true)
+require('plugins.iswap')
+time([[Config for iswap.nvim]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+require('plugins.cmp')
+time([[Config for nvim-cmp]], false)
 -- Config for: nvim-treesitter
 time([[Config for nvim-treesitter]], true)
 require('plugins.treesitter')
@@ -270,14 +280,14 @@ time([[Config for nvim-treesitter]], false)
 time([[Config for vim-illuminate]], true)
 require('plugins.illuminate')
 time([[Config for vim-illuminate]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-require('plugins.cmp')
-time([[Config for nvim-cmp]], false)
 -- Config for: vim-vsnip
 time([[Config for vim-vsnip]], true)
 require('plugins.vsnip')
 time([[Config for vim-vsnip]], false)
+-- Config for: neogen
+time([[Config for neogen]], true)
+require('plugins.neogen')
+time([[Config for neogen]], false)
 if should_profile then save_profiles() end
 
 end)
