@@ -10,12 +10,13 @@ brew "fzf"
 brew "git"
 brew "go"
 brew "jq"
+brew "lua-language-server", args: ["HEAD"]
+brew "luarocks"
 brew "neovim", args: ["HEAD"]
 brew "ninja"
-brew "luarocks"
-brew "lua-language-server", args: ["HEAD"]
 brew "nvm"
 brew "reattach-to-user-namespace"
+brew "rg"
 brew "ripgrep"
 brew "stow"
 brew "the_silver_searcher"
