@@ -12,7 +12,6 @@ zstyle ':completion:*' insert-tab pending
 # plugins
 # -----------------------
 plugins=(
-    git
     common-aliases
     macos
     zsh-syntax-highlighting
@@ -29,6 +28,8 @@ export EDITOR='nvim'
 # export ARCHFLAGS="-arch x86_64"
 
 source $HOME/.aliases
+source $HOME/.git-aliases
+source $HOME/.zshrc.local
 
 # functions
 # -----------------------
@@ -73,3 +74,4 @@ compdef _tmuxinator tmuxinator mux
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
