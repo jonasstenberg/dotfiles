@@ -72,6 +72,7 @@ local on_attach = function(client, bufnr)
     u.command("LspSignatureHelp", vim.lsp.buf.signature_help)
     u.command("LspTypeDef", vim.lsp.buf.type_definition)
     u.command("LspRangeAct", vim.lsp.buf.range_code_action)
+    u.command("LspAction", vim.lsp.buf.code_action)
 
     -- bindings
     u.buf_map(bufnr, "n", "gi", ":LspRename<CR>")
@@ -83,6 +84,7 @@ local on_attach = function(client, bufnr)
     u.buf_map(bufnr, "n", "<Leader>q", ":LspDiagQuickfix<CR>")
     u.buf_map(bufnr, "n", "<Leader>f", ":LspFormatting<CR>")
     u.buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
+    u.buf_map(bufnr, "n", "<Leader>i", ":LspAction<CR>")
 
     u.buf_map(bufnr, "n", "gr", ":LspRef<CR>")
     u.buf_map(bufnr, "n", "gd", ":LspDef<CR>")
