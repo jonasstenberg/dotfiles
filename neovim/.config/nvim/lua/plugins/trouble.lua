@@ -1,3 +1,4 @@
+-- diagnostics
 local u = require("config.utils")
 
 require("trouble").setup {

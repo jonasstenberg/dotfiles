@@ -1,3 +1,4 @@
+-- fuzzy finder for neovim
 local u = require("config.utils")
 
 require("fzf-lua").setup({
@@ -27,11 +28,15 @@ require("fzf-lua").setup({
             end,
         },
     },
+    grep = {
+        prompt            = 'Rg❯ ',
+        rg_opts           = "--column --line-number --no-heading --color=always --smart-case --max-columns=512",
+    }
 })
 
 -- fzf.vim-like commands
 u.command("Files", "FzfLua files")
-u.command("Rg", "FzfLua grep_project")
+u.command("Rg", "FzfLua live_grep")
 u.command("BLines", "FzfLua grep_curbuf")
 u.command("History", "FzfLua oldfiles")
 u.command("Buffers", "FzfLua buffers")

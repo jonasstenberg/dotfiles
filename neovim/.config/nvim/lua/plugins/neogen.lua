@@ -1,3 +1,4 @@
+-- annotations / comment blocks
 local u = require("config.utils")
 
 require("neogen").setup({

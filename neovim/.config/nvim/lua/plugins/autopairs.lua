@@ -1,3 +1,4 @@
+-- auto...pairs?
 local autopairs = require("nvim-autopairs")
 local u = require("config.utils")
 

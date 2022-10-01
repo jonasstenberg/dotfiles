@@ -1,3 +1,4 @@
+-- auto completions
 local cmp = require("cmp")
 
 local has_words_before = function()

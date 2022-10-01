@@ -1,3 +1,4 @@
+-- illuminate same keywords
 local u = require("config.utils")
 
 local illuminate = require("illuminate")

@@ -52,8 +52,8 @@ vim.g.markdown_fenced_languages = { 'javascript', 'js=javascript', 'json=javascr
 
 vim.cmd('autocmd VimResized * wincmd =')
 
--- Autocmds
-vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' -- highlight yank for a brief second for visual feedback
+-- Highlight yank for a brief second for visual feedback
+vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' 
 
 -- Trim trailing whitespace on save
 vim.cmd [[ autocmd BufWritePre * :%s/\s\+$//e ]]
