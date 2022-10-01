@@ -1,4 +1,4 @@
-.PHONY: bundle install
+.PHONY: bundle install stow
 
 install: /opt/homebrew/bin/brew bundle ~/.oh-my-zsh ~/.tmux/plugins/tpm
 
