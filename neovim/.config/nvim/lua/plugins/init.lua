@@ -45,7 +45,7 @@ return require('packer').startup(function(use)
     use_with_config("ibhagwan/fzf-lua", "fzf")
     use 'neovim/nvim-lspconfig'
     use 'b0o/schemastore.nvim'
-    use 'folke/lua-dev.nvim'
+    use 'folke/neodev.nvim'
     use 'nvim-lua/plenary.nvim'
     use 'jose-elias-alvarez/null-ls.nvim'
     use 'jose-elias-alvarez/nvim-lsp-ts-utils'

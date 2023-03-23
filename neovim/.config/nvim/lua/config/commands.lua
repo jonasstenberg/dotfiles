@@ -15,7 +15,7 @@ end
 local commands = {}
 
 -- like vsplit, but reuses existing splits
-api.nvim_add_user_command("Vsplit", function(opts)
+api.nvim_create_user_command("Vsplit", function(opts)
     local file = opts.args ~= "" and opts.args or vim.fn.expand("%")
 
     local current_window = api.nvim_get_current_win()
@@ -40,7 +40,7 @@ end, {
 })
 
 -- same but for split
-api.nvim_add_user_command("Split", function(opts)
+api.nvim_create_user_command("Split", function(opts)
     local file = opts.args ~= "" and opts.args or vim.fn.expand("%")
 
     local current_window = api.nvim_get_current_win()
@@ -133,7 +133,7 @@ commands.edit_test_file = function(cmd)
     end)
 end
 
-api.nvim_add_user_command("TestFile", function(opts)
+api.nvim_create_user_command("TestFile", function(opts)
     commands.edit_test_file(opts.args)
 end, {
     complete = "command",
@@ -172,7 +172,7 @@ commands.open_on_github = function(count, start_line, end_line)
     vim.fn.system("open " .. url)
 end
 
-api.nvim_add_user_command("GBrowse", function(opts)
+api.nvim_create_user_command("GBrowse", function(opts)
     global.commands.open_on_github(opts.count, opts.line1, opts.line2)
 end, {
     range = true,

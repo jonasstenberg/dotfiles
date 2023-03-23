@@ -73,5 +73,16 @@ compdef _tmuxinator tmuxinator mux
 
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin
 
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/Users/jonasstenberg/.local/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/jonasstenberg/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+export PATH=/opt/homebrew/bin:$PATH
+# pnpm end

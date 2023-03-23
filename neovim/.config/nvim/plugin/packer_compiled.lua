@@ -106,10 +106,10 @@ _G.packer_plugins = {
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/iswap.nvim",
     url = "https://github.com/mizlan/iswap.nvim"
   },
-  ["lua-dev.nvim"] = {
+  ["neodev.nvim"] = {
     loaded = true,
-    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/lua-dev.nvim",
-    url = "https://github.com/folke/lua-dev.nvim"
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/neodev.nvim",
+    url = "https://github.com/folke/neodev.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
@@ -252,38 +252,38 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: trouble.nvim
-time([[Config for trouble.nvim]], true)
-require('plugins.trouble')
-time([[Config for trouble.nvim]], false)
--- Config for: fzf-lua
-time([[Config for fzf-lua]], true)
-require('plugins.fzf')
-time([[Config for fzf-lua]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-require('plugins.autopairs')
-time([[Config for nvim-autopairs]], false)
--- Config for: iswap.nvim
-time([[Config for iswap.nvim]], true)
-require('plugins.iswap')
-time([[Config for iswap.nvim]], false)
--- Config for: nvim-cmp
-time([[Config for nvim-cmp]], true)
-require('plugins.cmp')
-time([[Config for nvim-cmp]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('plugins.treesitter')
-time([[Config for nvim-treesitter]], false)
--- Config for: vim-illuminate
-time([[Config for vim-illuminate]], true)
-require('plugins.illuminate')
-time([[Config for vim-illuminate]], false)
 -- Config for: vim-vsnip
 time([[Config for vim-vsnip]], true)
 require('plugins.vsnip')
 time([[Config for vim-vsnip]], false)
+-- Config for: vim-illuminate
+time([[Config for vim-illuminate]], true)
+require('plugins.illuminate')
+time([[Config for vim-illuminate]], false)
+-- Config for: iswap.nvim
+time([[Config for iswap.nvim]], true)
+require('plugins.iswap')
+time([[Config for iswap.nvim]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+require('plugins.autopairs')
+time([[Config for nvim-autopairs]], false)
+-- Config for: trouble.nvim
+time([[Config for trouble.nvim]], true)
+require('plugins.trouble')
+time([[Config for trouble.nvim]], false)
+-- Config for: nvim-cmp
+time([[Config for nvim-cmp]], true)
+require('plugins.cmp')
+time([[Config for nvim-cmp]], false)
+-- Config for: fzf-lua
+time([[Config for fzf-lua]], true)
+require('plugins.fzf')
+time([[Config for fzf-lua]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('plugins.treesitter')
+time([[Config for nvim-treesitter]], false)
 -- Config for: neogen
 time([[Config for neogen]], true)
 require('plugins.neogen')

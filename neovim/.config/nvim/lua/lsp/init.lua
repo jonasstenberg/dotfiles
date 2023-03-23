@@ -62,7 +62,7 @@ global.lsp = {
 
 local on_attach = function(client, bufnr)
 	-- commands
-	u.command("LspFormatting", vim.lsp.buf.formatting)
+	u.command("LspFormat", vim.lsp.buf.format)
 	u.command("LspHover", vim.lsp.buf.hover)
 	u.command("LspRename", vim.lsp.buf.rename)
 	u.command("LspDiagPrev", vim.diagnostic.goto_prev)
@@ -71,7 +71,6 @@ local on_attach = function(client, bufnr)
 	u.command("LspDiagQuickfix", vim.diagnostic.setqflist)
 	u.command("LspSignatureHelp", vim.lsp.buf.signature_help)
 	u.command("LspTypeDef", vim.lsp.buf.type_definition)
-	u.command("LspRangeAct", vim.lsp.buf.range_code_action)
 	u.command("LspAction", vim.lsp.buf.code_action)
 
 	-- bindings
@@ -82,18 +81,17 @@ local on_attach = function(client, bufnr)
 	u.buf_map(bufnr, "n", "<Leader>k", ":LspDiagNext<CR>")
 	u.buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>")
 	u.buf_map(bufnr, "n", "<Leader>q", ":LspDiagQuickfix<CR>")
-	u.buf_map(bufnr, "n", "<Leader>f", ":LspFormatting<CR>")
+	u.buf_map(bufnr, "n", "<Leader>f", ":LspFormat<CR>")
 	u.buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>")
 	u.buf_map(bufnr, "n", "<Leader>i", ":LspAction<CR>")
 
 	u.buf_map(bufnr, "n", "gr", ":LspRef<CR>")
 	u.buf_map(bufnr, "n", "gd", ":LspDef<CR>")
 	u.buf_map(bufnr, "n", "ga", ":LspAct<CR>")
-	u.buf_map(bufnr, "v", "ga", "<Esc><cmd> LspRangeAct<CR>")
 
 	if client.supports_method("textDocument/formatting") then
 		vim.cmd([[
-        augroup LspFormatting
+        augroup LspFormat
             autocmd! * <buffer>
             autocmd BufWritePost <buffer> silent! lua global.lsp.formatting(vim.fn.expand("<abuf>"))
         augroup END
@@ -103,8 +101,7 @@ local on_attach = function(client, bufnr)
 	require("illuminate").on_attach(client)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 for _, server in ipairs({
 	"bashls",
@@ -112,10 +109,11 @@ for _, server in ipairs({
 	"eslint",
 	"jsonls",
 	"null-ls",
-	"sumneko_lua",
+	"lua_ls",
 	"tsserver",
 	"gopls",
 }) do
+	-- require('lspconfig')["lsp" .. server].setup(on_attach, capabilities)
 	require("lsp." .. server).setup(on_attach, capabilities)
 end
 

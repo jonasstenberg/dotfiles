@@ -29,7 +29,7 @@ local settings = {
 local M = {}
 
 M.setup = function(on_attach, capabilities)
-    local luadev = require("lua-dev").setup({
+    local luadev = require("neodev").setup({
         lspconfig = {
             on_attach = on_attach,
             settings = settings,
@@ -39,7 +39,7 @@ M.setup = function(on_attach, capabilities)
             capabilities = capabilities,
         },
     })
-    require("lspconfig").sumneko_lua.setup(luadev)
+    require("lspconfig").lua_ls.setup(luadev)
 end
 
 return M

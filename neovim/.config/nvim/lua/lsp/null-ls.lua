@@ -16,28 +16,28 @@ end
 local sources = {
 	-- formatting
 	b.formatting.prettier,
-	b.formatting.eslint_d,
-	b.formatting.djlint, -- HTML template linter and formatter
-	b.formatting.shfmt,
-	b.formatting.fixjson,
-	b.formatting.gofmt, -- Formats go programs
-	b.formatting.goimports, -- Updates your Go import lines, adding missing ones and removing unreferenced ones.
-	b.formatting.stylua,
-	b.formatting.trim_whitespace,
-	b.formatting.trim_newlines,
-	with_root_file(b.formatting.stylua, "stylua.toml"),
-	-- diagnostics,
-	with_root_file(b.diagnostics.selene, "selene.toml"),
-	b.diagnostics.write_good,
-	b.diagnostics.markdownlint,
-	b.diagnostics.teal,
-	b.diagnostics.tsc,
-	with_diagnostics_code(b.diagnostics.shellcheck),
-	-- code actions
-	b.code_actions.gitsigns,
-	b.code_actions.gitrebase,
-	-- hover
-	b.hover.dictionary,
+	-- b.formatting.eslint_d,
+	-- b.formatting.djlint, -- HTML template linter and formatter
+	-- b.formatting.shfmt,
+	-- b.formatting.fixjson,
+	-- b.formatting.gofmt, -- Formats go programs
+	-- b.formatting.goimports, -- Updates your Go import lines, adding missing ones and removing unreferenced ones.
+	-- b.formatting.stylua,
+	-- b.formatting.trim_whitespace,
+	-- b.formatting.trim_newlines,
+	-- with_root_file(b.formatting.stylua, "stylua.toml"),
+	-- -- diagnostics,
+	-- with_root_file(b.diagnostics.selene, "selene.toml"),
+	-- b.diagnostics.write_good,
+	-- b.diagnostics.markdownlint,
+	-- b.diagnostics.teal,
+	-- b.diagnostics.tsc,
+	-- with_diagnostics_code(b.diagnostics.shellcheck),
+	-- -- code actions
+	-- b.code_actions.gitsigns,
+	-- b.code_actions.gitrebase,
+	-- -- hover
+	-- b.hover.dictionary,
 }
 
 local M = {}
