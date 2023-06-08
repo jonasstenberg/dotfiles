@@ -46,14 +46,16 @@ opt.swapfile = true
 opt.wrap = false
 opt.termguicolors = true
 
-vim.g.netrw_banner = false
-vim.g.netrw_liststyle = 3
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+-- vim.g.netrw_banner = false
+-- vim.g.netrw_liststyle = 3
 vim.g.markdown_fenced_languages = { 'javascript', 'js=javascript', 'json=javascript' }
 
 vim.cmd('autocmd VimResized * wincmd =')
 
 -- Highlight yank for a brief second for visual feedback
-vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }' 
+vim.cmd 'au! TextYankPost * lua vim.highlight.on_yank { on_visual = false }'
 
 -- Trim trailing whitespace on save
 vim.cmd [[ autocmd BufWritePre * :%s/\s\+$//e ]]

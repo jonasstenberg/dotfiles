@@ -30,7 +30,7 @@ require("fzf-lua").setup({
     },
     grep = {
         prompt            = 'Rg❯ ',
-        rg_opts           = "--column --line-number --no-heading --color=always --smart-case --max-columns=512",
+        rg_opts           = "--column --line-number --no-heading --color=always --smart-case --hidden",
     }
 })
 

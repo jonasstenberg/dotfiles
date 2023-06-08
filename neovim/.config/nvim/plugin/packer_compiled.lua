@@ -9,23 +9,26 @@ vim.api.nvim_command('packadd packer.nvim')
 
 local no_errors, error_msg = pcall(function()
 
-  local time
-  local profile_info
-  local should_profile = false
-  if should_profile then
-    local hrtime = vim.loop.hrtime
-    profile_info = {}
-    time = function(chunk, start)
-      if start then
-        profile_info[chunk] = hrtime()
-      else
-        profile_info[chunk] = (hrtime() - profile_info[chunk]) / 1e6
-      end
+_G._packer = _G._packer or {}
+_G._packer.inside_compile = true
+
+local time
+local profile_info
+local should_profile = false
+if should_profile then
+  local hrtime = vim.loop.hrtime
+  profile_info = {}
+  time = function(chunk, start)
+    if start then
+      profile_info[chunk] = hrtime()
+    else
+      profile_info[chunk] = (hrtime() - profile_info[chunk]) / 1e6
     end
-  else
-    time = function(chunk, start) end
   end
-  
+else
+  time = function(chunk, start) end
+end
+
 local function save_profiles(threshold)
   local sorted_times = {}
   for chunk_name, time_taken in pairs(profile_info) do
@@ -38,8 +41,10 @@ local function save_profiles(threshold)
       results[i] = elem[1] .. ' took ' .. elem[2] .. 'ms'
     end
   end
+  if threshold then
+    table.insert(results, '(Only showing plugins that took longer than ' .. threshold .. ' ms ' .. 'to load)')
+  end
 
-  _G._packer = _G._packer or {}
   _G._packer.profile_output = results
 end
 
@@ -69,6 +74,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["CodeGPT.nvim"] = {
+    loaded = true,
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/CodeGPT.nvim",
+    url = "https://github.com/dpayne/CodeGPT.nvim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -106,21 +116,31 @@ _G.packer_plugins = {
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/iswap.nvim",
     url = "https://github.com/mizlan/iswap.nvim"
   },
-  ["neodev.nvim"] = {
+  ["lspkind.nvim"] = {
     loaded = true,
-    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/neodev.nvim",
-    url = "https://github.com/folke/neodev.nvim"
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/lspkind.nvim",
+    url = "https://github.com/onsails/lspkind.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
+  ["neodev.nvim"] = {
+    loaded = true,
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/neodev.nvim",
+    url = "https://github.com/folke/neodev.nvim"
+  },
   neogen = {
     config = { "require('plugins.neogen')" },
     loaded = true,
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/neogen",
     url = "https://github.com/danymat/neogen"
+  },
+  ["nui.nvim"] = {
+    loaded = true,
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/nui.nvim",
+    url = "https://github.com/MunifTanjim/nui.nvim"
   },
   ["null-ls.nvim"] = {
     loaded = true,
@@ -149,6 +169,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-tree.lua"] = {
+    config = { "require('plugins.nvim-tree')" },
+    loaded = true,
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/nvim-tree/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
     config = { "require('plugins.treesitter')" },
@@ -190,6 +216,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["prettier.nvim"] = {
+    config = { "require('plugins.prettier')" },
+    loaded = true,
+    path = "/Users/jonasstenberg/.local/share/nvim/site/pack/packer/start/prettier.nvim",
+    url = "https://github.com/MunifTanjim/prettier.nvim"
   },
   ["schemastore.nvim"] = {
     loaded = true,
@@ -252,6 +284,30 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: trouble.nvim
+time([[Config for trouble.nvim]], true)
+require('plugins.trouble')
+time([[Config for trouble.nvim]], false)
+-- Config for: prettier.nvim
+time([[Config for prettier.nvim]], true)
+require('plugins.prettier')
+time([[Config for prettier.nvim]], false)
+-- Config for: neogen
+time([[Config for neogen]], true)
+require('plugins.neogen')
+time([[Config for neogen]], false)
+-- Config for: fzf-lua
+time([[Config for fzf-lua]], true)
+require('plugins.fzf')
+time([[Config for fzf-lua]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('plugins.treesitter')
+time([[Config for nvim-treesitter]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+require('plugins.autopairs')
+time([[Config for nvim-autopairs]], false)
 -- Config for: vim-vsnip
 time([[Config for vim-vsnip]], true)
 require('plugins.vsnip')
@@ -264,30 +320,21 @@ time([[Config for vim-illuminate]], false)
 time([[Config for iswap.nvim]], true)
 require('plugins.iswap')
 time([[Config for iswap.nvim]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-require('plugins.autopairs')
-time([[Config for nvim-autopairs]], false)
--- Config for: trouble.nvim
-time([[Config for trouble.nvim]], true)
-require('plugins.trouble')
-time([[Config for trouble.nvim]], false)
+-- Config for: nvim-tree.lua
+time([[Config for nvim-tree.lua]], true)
+require('plugins.nvim-tree')
+time([[Config for nvim-tree.lua]], false)
 -- Config for: nvim-cmp
 time([[Config for nvim-cmp]], true)
 require('plugins.cmp')
 time([[Config for nvim-cmp]], false)
--- Config for: fzf-lua
-time([[Config for fzf-lua]], true)
-require('plugins.fzf')
-time([[Config for fzf-lua]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('plugins.treesitter')
-time([[Config for nvim-treesitter]], false)
--- Config for: neogen
-time([[Config for neogen]], true)
-require('plugins.neogen')
-time([[Config for neogen]], false)
+
+_G._packer.inside_compile = false
+if _G._packer.needs_bufread == true then
+  vim.cmd("doautocmd BufRead")
+end
+_G._packer.needs_bufread = false
+
 if should_profile then save_profiles() end
 
 end)

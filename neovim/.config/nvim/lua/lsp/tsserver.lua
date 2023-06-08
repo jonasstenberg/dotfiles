@@ -14,7 +14,6 @@ M.setup = function(on_attach, capabilities)
     local ts_utils = require("nvim-lsp-ts-utils")
 
     lspconfig["tsserver"].setup({
-        root_dir = lspconfig.util.root_pattern("package.json"),
         init_options = ts_utils.init_options,
         on_attach = function(client, bufnr)
             on_attach(client, bufnr)
@@ -26,6 +25,8 @@ M.setup = function(on_attach, capabilities)
             u.buf_map(bufnr, "n", "gI", ":TSLspRenameFile<CR>")
             u.buf_map(bufnr, "n", "go", ":TSLspImportAll<CR>")
         end,
+        filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+        cmd = { "typescript-language-server", "--stdio" },
         flags = {
             debounce_text_changes = 150,
         },
