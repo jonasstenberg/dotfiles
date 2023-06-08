@@ -284,30 +284,14 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: trouble.nvim
-time([[Config for trouble.nvim]], true)
-require('plugins.trouble')
-time([[Config for trouble.nvim]], false)
--- Config for: prettier.nvim
-time([[Config for prettier.nvim]], true)
-require('plugins.prettier')
-time([[Config for prettier.nvim]], false)
--- Config for: neogen
-time([[Config for neogen]], true)
-require('plugins.neogen')
-time([[Config for neogen]], false)
 -- Config for: fzf-lua
 time([[Config for fzf-lua]], true)
 require('plugins.fzf')
 time([[Config for fzf-lua]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-require('plugins.treesitter')
-time([[Config for nvim-treesitter]], false)
--- Config for: nvim-autopairs
-time([[Config for nvim-autopairs]], true)
-require('plugins.autopairs')
-time([[Config for nvim-autopairs]], false)
+-- Config for: neogen
+time([[Config for neogen]], true)
+require('plugins.neogen')
+time([[Config for neogen]], false)
 -- Config for: vim-vsnip
 time([[Config for vim-vsnip]], true)
 require('plugins.vsnip')
@@ -316,18 +300,34 @@ time([[Config for vim-vsnip]], false)
 time([[Config for vim-illuminate]], true)
 require('plugins.illuminate')
 time([[Config for vim-illuminate]], false)
--- Config for: iswap.nvim
-time([[Config for iswap.nvim]], true)
-require('plugins.iswap')
-time([[Config for iswap.nvim]], false)
 -- Config for: nvim-tree.lua
 time([[Config for nvim-tree.lua]], true)
 require('plugins.nvim-tree')
 time([[Config for nvim-tree.lua]], false)
+-- Config for: iswap.nvim
+time([[Config for iswap.nvim]], true)
+require('plugins.iswap')
+time([[Config for iswap.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+require('plugins.treesitter')
+time([[Config for nvim-treesitter]], false)
+-- Config for: nvim-autopairs
+time([[Config for nvim-autopairs]], true)
+require('plugins.autopairs')
+time([[Config for nvim-autopairs]], false)
 -- Config for: nvim-cmp
 time([[Config for nvim-cmp]], true)
 require('plugins.cmp')
 time([[Config for nvim-cmp]], false)
+-- Config for: prettier.nvim
+time([[Config for prettier.nvim]], true)
+require('plugins.prettier')
+time([[Config for prettier.nvim]], false)
+-- Config for: trouble.nvim
+time([[Config for trouble.nvim]], true)
+require('plugins.trouble')
+time([[Config for trouble.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

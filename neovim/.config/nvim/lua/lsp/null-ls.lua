@@ -22,7 +22,7 @@ local sources = {
 	-- b.formatting.eslint_d,
 	-- b.formatting.djlint, -- HTML template linter and formatter
 	-- b.formatting.shfmt,
-	-- b.formatting.fixjson,
+	b.formatting.fixjson,
 	-- b.formatting.gofmt, -- Formats go programs
 	-- b.formatting.goimports, -- Updates your Go import lines, adding missing ones and removing unreferenced ones.
 	b.formatting.stylua,
