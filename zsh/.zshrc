@@ -83,6 +83,8 @@ export PATH="/Users/jonasstenberg/.local/bin:$PATH"
 
 # pnpm
 export PNPM_HOME="/Users/jonasstenberg/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-export PATH=/opt/homebrew/bin:$PATH
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
 # pnpm end
