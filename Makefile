@@ -17,3 +17,4 @@ bundle:
 
 stow:
 	stow --verbose --target=$$HOME --restow */
+
