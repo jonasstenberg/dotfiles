@@ -1,12 +1,12 @@
-.PHONY: bundle install stow
+.PHONY: install bundle stow
 
-install: /opt/homebrew/bin/brew bundle ~/.oh-my-zsh ~/.tmux/plugins/tpm
-
-bundle:
-	brew bundle
+install: bundle ~/.oh-my-zsh ~/.tmux/plugins/tpm
 
 /opt/homebrew/bin/brew:
 	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+
+bundle: /opt/homebrew/bin/brew
+	brew bundle
 
 ~/.oh-my-zsh:
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; \
