@@ -1,10 +1,14 @@
-return {
+local M = {
   "RRethy/vim-illuminate",
-  config = function()
-    local illuminate = require("illuminate")
-
-    illuminate.configure({
-      delay = 100,
-    })
-  end,
+  event = "VeryLazy",
 }
+
+function M.config()
+  local illuminate = require("illuminate")
+
+  illuminate.configure({
+    delay = 100,
+  })
+end
+
+return M

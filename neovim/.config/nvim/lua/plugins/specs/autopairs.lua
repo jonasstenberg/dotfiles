@@ -1,3 +1,6 @@
-return {
-  "windwp/nvim-autopairs"
+local M = {
+  "windwp/nvim-autopairs",
+  event = "VeryLazy",
 }
+
+return M

@@ -1,22 +1,26 @@
-return {
+local M = {
   "folke/neodev.nvim",
+  event = "VeryLazy",
   opts = {},
-  config = function()
-    require("neodev").setup({})
+}
 
-    local lspconfig = require('lspconfig')
+function M.config()
+  require("neodev").setup({})
 
-    lspconfig.lua_ls.setup({
-      settings = {
-        Lua = {
-          completion = {
-            callSnippet = "Replace"
-          },
-          workspace = {
-            checkThirdParty = false
-          }
+  local lspconfig = require('lspconfig')
+
+  lspconfig.lua_ls.setup({
+    settings = {
+      Lua = {
+        completion = {
+          callSnippet = "Replace"
+        },
+        workspace = {
+          checkThirdParty = false
         }
       }
-    })
-  end
-}
+    }
+  })
+end
+
+return M

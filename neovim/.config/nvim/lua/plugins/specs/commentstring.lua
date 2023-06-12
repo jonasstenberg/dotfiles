@@ -1,3 +1,6 @@
-return {
-  "JoosepAlviste/nvim-ts-context-commentstring"
+local M = {
+  "JoosepAlviste/nvim-ts-context-commentstring",
+  event = "VeryLazy",
 }
+
+return M

@@ -1,7 +1,10 @@
-return {
+local M = {
   "ellisonleao/gruvbox.nvim",
   priority = 1000,
-  config = function()
-    vim.cmd([[colorscheme gruvbox]])
-  end
 }
+
+function M.config()
+  vim.cmd([[colorscheme gruvbox]])
+end
+
+return M

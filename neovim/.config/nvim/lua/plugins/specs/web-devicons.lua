@@ -1,3 +1,5 @@
-return {
-  "kyazdani42/nvim-web-devicons"
+local M = {
+  'nvim-tree/nvim-web-devicons',
 }
+
+return M
