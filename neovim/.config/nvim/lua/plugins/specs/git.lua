@@ -22,15 +22,15 @@ function M.config()
     target_branch = "main",
   })
 
-  vim.cmd(string.format("hi DiffAdd guifg = " .. colorschemes.base0B .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffChange guifg = " .. colorschemes.base03 .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffDelete guifg = " .. colorschemes.base08 .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffText guifg = " .. colorschemes.base0D .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffAdded guifg = " .. colorschemes.base0B .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffFile guifg = " .. colorschemes.base08 .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffNewFile guifg = " .. colorschemes.base0B .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffLine guifg = " .. colorschemes.base0D .. " guibg = " .. colorschemes.base00))
-  vim.cmd(string.format("hi DiffRemoved guifg = " .. colorschemes.base08 .. " guibg = " .. colorschemes.base00))
+  vim.cmd("hi DiffAdd guifg = " .. colorschemes.base0B .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffChange guifg = " .. colorschemes.base03 .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffDelete guifg = " .. colorschemes.base08 .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffText guifg = " .. colorschemes.base0D .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffAdded guifg = " .. colorschemes.base0B .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffFile guifg = " .. colorschemes.base08 .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffNewFile guifg = " .. colorschemes.base0B .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffLine guifg = " .. colorschemes.base0D .. " guibg = " .. colorschemes.base00)
+  vim.cmd("hi DiffRemoved guifg = " .. colorschemes.base08 .. " guibg = " .. colorschemes.base00)
 end
 
 return M
