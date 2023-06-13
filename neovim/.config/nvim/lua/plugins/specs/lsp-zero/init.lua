@@ -106,6 +106,11 @@ function M.config()
   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
 
   local luasnip = require("luasnip")
+  luasnip.filetype_extend("javascript", { "html" })
+  luasnip.filetype_extend("javascriptreact", { "html" })
+  luasnip.filetype_extend("typescriptreact", { "html" })
+  require("luasnip.loaders.from_vscode").lazy_load()
+
   local cmp_action = require("lsp-zero").cmp_action()
   local kind_icons = require("plugins.specs.lsp-zero.icons")
 
@@ -151,12 +156,13 @@ M.dependencies = { -- LSP Support
   -- Autocompletion
   { "hrsh7th/nvim-cmp",                 event = 'InsertEnter', },
   { "hrsh7th/cmp-nvim-lsp" },
-  { "saadparwaiz1/cmp_luasnip" },
   {
     "L3MON4D3/LuaSnip",
     version = "1.*",
     dependencies = {
-      "rafamadriz/friendly-snippets" },
+      "rafamadriz/friendly-snippets",
+      "saadparwaiz1/cmp_luasnip",
+    },
   },
 }
 
