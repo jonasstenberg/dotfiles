@@ -5,24 +5,27 @@ local M = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-project.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    "folke/trouble.nvim"
   },
   tag = "0.1.1",
   keys = {
-    { "<C-p>", "<cmd>Telescope find_files<CR>", desc = "Find files" },
-    { "<C-f>", "<cmd>Telescope live_grep<CR>",  desc = "Find grep" },
+    { "<C-p>", "<cmd>Telescope find_files<CR>",  desc = "Find files" },
+    { "<C-f>", "<cmd>Telescope live_grep<CR>",   desc = "Find grep" },
+    { "<C-t>", "<cmd>Telescope diagnostics<CR>", desc = "Show diagnostics" }
   },
   cmd = "Telescope",
 }
 
 function M.config()
+  local actions = require("telescope.actions")
   local telescope = require('telescope')
 
   telescope.setup {
     defaults = {
       mappings = {
         i = {
-          ["<Esc>"] = require('telescope.actions').close
-        }
+          ["<Esc>"] = actions.close,
+        },
       },
       prompt_prefix = " ",
       selection_caret = " ",
@@ -37,7 +40,7 @@ function M.config()
         hidden = true
       },
       live_grep = {
-        additional_args = function(_)
+        additional_args = function()
           return { "--hidden" }
         end
       },

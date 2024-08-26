@@ -1,17 +1,16 @@
 local M = {
-  "jackMort/ChatGPT.nvim",
-  event = "VeryLazy",
-  dependencies = {
-    "MunifTanjim/nui.nvim",
-    "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim"
-  }
+  -- "jackMort/ChatGPT.nvim",
+  -- dependencies = {
+  --   "MunifTanjim/nui.nvim",
+  --   "nvim-lua/plenary.nvim",
+  --   "nvim-telescope/telescope.nvim"
+  -- }
 }
 
-function M.config()
-  require("chatgpt").setup({
-    -- api_key_cmd = "op item get 'OpenAI' --fields label='API Key'"
-  })
-end
+-- function M.config()
+--   require("chatgpt").setup({
+--     api_key_cmd = "op read op://personal/OpenAI/'API Key' --no-newline"
+--   })
+-- end
 
 return M

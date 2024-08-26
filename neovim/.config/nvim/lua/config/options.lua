@@ -44,7 +44,7 @@ vim.o.background = "dark"
 
 opt.wrap = false
 
-opt.colorcolumn = "80"
+opt.colorcolumn = "100"
 
 opt.updatetime = 50
 

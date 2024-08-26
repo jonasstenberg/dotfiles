@@ -36,3 +36,6 @@ map("x", "<leader>p", '"_dP')
 -- delete into void registry
 map("n", "<leader>d", '"_d')
 map("v", "<leader>d", '"_d')
+
+map("n", "å", "^")
+map("n", "ä", "$")

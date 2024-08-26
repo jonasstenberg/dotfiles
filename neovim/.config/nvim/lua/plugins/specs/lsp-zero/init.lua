@@ -15,9 +15,9 @@ function M.config()
       hint = '⚑',
       info = '»',
     },
+    configure_diagnostics = false,
     float_border = 'rounded',
     call_servers = 'local',
-    configure_diagnostics = true,
     setup_servers_on_start = true,
     set_lsp_keymaps = false,
     manage_nvim_cmp = {
@@ -26,7 +26,7 @@ function M.config()
       set_extra_mappings = false,
       use_luasnip = true,
       set_format = true,
-      documentation_window = false,
+      documentation_window = true,
     },
   })
 
@@ -34,14 +34,28 @@ function M.config()
     local opts = { buffer = bufnr, remap = false }
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-    vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
     vim.keymap.set("n", "<leader>df", function() vim.diagnostic.goto_next() end, opts)
     vim.keymap.set("n", "<leader>ds", function() vim.diagnostic.goto_prev() end, opts)
     vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
-    vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-    vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+    vim.keymap.set("n", "rn", function() vim.lsp.buf.rename() end, opts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+    vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = bufnr,
+      callback = function()
+        local lopts = {
+          focusable = false,
+          close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+          border = 'rounded',
+          source = 'always',
+          prefix = ' ',
+          scope = 'cursor',
+        }
+        vim.diagnostic.open_float(nil, lopts)
+      end
+    })
 
     lsp.default_keymaps({ buffer = bufnr })
     lsp.buffer_autoformat()
@@ -50,7 +64,7 @@ function M.config()
   lsp.setup()
 
   vim.diagnostic.config({
-    virtual_text = true
+    virtual_text = false,
   })
 
   local lspconfig = require('lspconfig')
@@ -64,6 +78,7 @@ function M.config()
       "jsonls",
       "lua_ls",
       "tsserver",
+      "pyright",
     },
   })
   require('mason-lspconfig').setup_handlers({
@@ -106,6 +121,7 @@ function M.config()
   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
 
   local luasnip = require("luasnip")
+  luasnip.filetype_extend("python", { "py" })
   luasnip.filetype_extend("javascript", { "html" })
   luasnip.filetype_extend("javascriptreact", { "html" })
   luasnip.filetype_extend("typescriptreact", { "html" })
@@ -113,6 +129,18 @@ function M.config()
 
   local cmp_action = require("lsp-zero").cmp_action()
   local kind_icons = require("plugins.specs.lsp-zero.icons")
+  local function border(hl_name)
+    return {
+      { "╭", hl_name },
+      { "─", hl_name },
+      { "╮", hl_name },
+      { "│", hl_name },
+      { "╯", hl_name },
+      { "─", hl_name },
+      { "╰", hl_name },
+      { "│", hl_name },
+    }
+  end
 
   cmp.setup({
     snippet = {
@@ -124,6 +152,15 @@ function M.config()
       ['<Tab>'] = cmp_action.luasnip_supertab(),
       ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
       ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    },
+    window = {
+      completion = {
+        scrollbar = false,
+      },
+      documentation = {
+        side_padding = 1,
+        border = border "CmpDocBorder",
+      },
     },
     formatting = {
       fields = { "kind", "abbr", "menu" },
@@ -147,9 +184,23 @@ function M.config()
       { name = "path" },
     },
   })
+
+  local null_ls = require("null-ls")
+
+  null_ls.setup({
+    sources = {
+      null_ls.builtins.formatting.prettier,
+      null_ls.builtins.formatting.autopep8,
+      null_ls.builtins.diagnostics.stylelint,
+      null_ls.builtins.formatting.stylelint,
+      null_ls.builtins.code_actions.eslint_d
+    },
+  })
 end
 
 M.dependencies = { -- LSP Support
+  { "windwp/nvim-autopairs" },
+  { "jose-elias-alvarez/null-ls.nvim" },
   { "neovim/nvim-lspconfig",            event = { "BufReadPre", "BufNewFile" } },
   { 'williamboman/mason.nvim',          build = ':MasonUpdate', },
   { "williamboman/mason-lspconfig.nvim" },
