@@ -5,13 +5,11 @@ local M = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-project.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    "folke/trouble.nvim"
   },
-  tag = "0.1.1",
   keys = {
     { "<C-p>", "<cmd>Telescope find_files<CR>",  desc = "Find files" },
-    { "<C-f>", "<cmd>Telescope live_grep<CR>",   desc = "Find grep" },
-    { "<C-t>", "<cmd>Telescope diagnostics<CR>", desc = "Show diagnostics" }
+    { "<C-f>", "<cmd>Telescope live_grep<CR>",   desc = "Live grep" },
+    { "<C-t>", "<cmd>Telescope diagnostics<CR>", desc = "Show diagnostics" },
   },
   cmd = "Telescope",
 }
@@ -32,17 +30,16 @@ function M.config()
       file_ignore_patterns = {
         "^.git/",
       },
-      wrap_results = false,
       dynamic_preview_title = true,
     },
     pickers = {
       find_files = {
-        hidden = true
+        hidden = true,
       },
       live_grep = {
-        additional_args = function()
+        additional_args = function(opts)
           return { "--hidden" }
-        end
+        end,
       },
     },
     extensions = {
@@ -54,6 +51,10 @@ function M.config()
       },
     },
   }
+
+  -- Load Telescope extensions
+  telescope.load_extension('fzf')
+  telescope.load_extension('project')
 end
 
 return M

@@ -19,6 +19,7 @@ function M.config()
       "tsx",
       "javascript",
       "typescript",
+      "yaml",
       "vim",
       "vimdoc",
     },

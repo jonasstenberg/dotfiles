@@ -5,6 +5,9 @@ local M = {
 }
 
 function M.config()
+  -- Include the 'mason' bin directory in Neovim's PATH
+  vim.env.PATH = vim.fn.stdpath('data') .. '/mason/bin' .. ':' .. vim.env.PATH
+
   local lsp = require("lsp-zero")
 
   lsp.set_preferences({
@@ -30,7 +33,7 @@ function M.config()
     },
   })
 
-  lsp.on_attach(function(_, bufnr)
+  lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
 
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
@@ -58,7 +61,7 @@ function M.config()
     })
 
     lsp.default_keymaps({ buffer = bufnr })
-    lsp.buffer_autoformat()
+    -- lsp.buffer_autoformat() -- Removed to prevent conflict with formatter.nvim
   end)
 
   lsp.setup()
@@ -77,16 +80,49 @@ function M.config()
       "html",
       "jsonls",
       "lua_ls",
-      "tsserver",
+      "ts_ls",
       "pyright",
     },
   })
+
   require('mason-lspconfig').setup_handlers({
     function(server)
       lspconfig[server].setup({})
     end,
+    -- Disable formatting capabilities for tsserver to prevent conflicts
+    ['ts_ls'] = function()
+      lspconfig.ts_ls.setup({
+        on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = false
+          -- You can keep other on_attach configurations here
+        end,
+      })
+    end,
+    -- Disable formatting capabilities for pyright
+    ['pyright'] = function()
+      lspconfig.pyright.setup({
+        on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = false
+          -- You can keep other on_attach configurations here
+        end,
+      })
+    end,
   })
 
+  -- Setup mason-tool-installer to install external tools like eslint_d
+  require('mason-tool-installer').setup({
+    ensure_installed = {
+      'eslint_d',
+      'prettier',
+      'stylelint',
+      'flake8',
+      -- Add other tools you need
+    },
+    auto_update = false,
+    run_on_start = true,
+  })
+
+  -- Autopairs configuration remains the same
   local status_ok, npairs = pcall(require, "nvim-autopairs")
   if not status_ok then
     return
@@ -104,7 +140,7 @@ function M.config()
       map = "<M-e>",
       chars = { "{", "[", "(", '"', "'" },
       pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
-      offset = 0, -- Offset from pattern match
+      offset = 0,
       end_key = "$",
       keys = "qwertyuiopzxcvbnmasdfghjkl",
       check_comma = true,
@@ -145,7 +181,7 @@ function M.config()
   cmp.setup({
     snippet = {
       expand = function(args)
-        luasnip.lsp_expand(args.body) -- For `luasnip` users.
+        luasnip.lsp_expand(args.body)
       end,
     },
     mapping = {
@@ -185,25 +221,89 @@ function M.config()
     },
   })
 
-  local null_ls = require("null-ls")
-
-  null_ls.setup({
-    sources = {
-      null_ls.builtins.formatting.prettier,
-      null_ls.builtins.formatting.autopep8,
-      null_ls.builtins.diagnostics.stylelint,
-      null_ls.builtins.formatting.stylelint,
-      null_ls.builtins.code_actions.eslint_d
+  -- Configure formatter.nvim
+  require('formatter').setup({
+    logging = false,
+    filetype = {
+      javascript = {
+        function()
+          return {
+            exe = "prettierd",
+            args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+            stdin = true,
+          }
+        end,
+      },
+      typescript = {
+        function()
+          return {
+            exe = "prettierd",
+            args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+            stdin = true,
+          }
+        end,
+      },
+      python = {
+        function()
+          return {
+            exe = "autopep8",
+            args = { "-" },
+            stdin = true,
+          }
+        end,
+      },
+      css = {
+        function()
+          return {
+            exe = "stylelint",
+            args = { "--fix", "--stdin", "--stdin-filename", vim.api.nvim_buf_get_name(0) },
+            stdin = true,
+            ignore_exitcode = true,
+          }
+        end,
+      },
+      -- Add other filetypes as needed
     },
+  })
+
+  -- Format on save
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.css", "*.scss", "*.py" },
+    command = "FormatWrite",
+  })
+
+  -- Configure nvim-lint
+  local lint = require('lint')
+
+  lint.linters_by_ft = {
+    javascript = { 'eslint_d' },
+    typescript = { 'eslint_d' },
+    typescriptreact = { 'eslint_d' },
+    javascriptreact = { 'eslint_d' },
+    python = { 'flake8' },
+    css = { 'stylelint' },
+    -- Add other filetypes and linters as needed
+  }
+
+  -- Set the command path for eslint_d to use the one installed by mason
+  lint.linters.eslint_d.cmd = vim.fn.stdpath('data') .. '/mason/bin/eslint_d'
+
+  -- Lint on save and insert leave
+  vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
+    callback = function()
+      require('lint').try_lint()
+    end,
   })
 end
 
-M.dependencies = { -- LSP Support
+M.dependencies = {
+  -- LSP Support
   { "windwp/nvim-autopairs" },
-  { "jose-elias-alvarez/null-ls.nvim" },
+  -- { "jose-elias-alvarez/null-ls.nvim" }, -- Removed null-ls
   { "neovim/nvim-lspconfig",            event = { "BufReadPre", "BufNewFile" } },
   { 'williamboman/mason.nvim',          build = ':MasonUpdate', },
   { "williamboman/mason-lspconfig.nvim" },
+  { 'WhoIsSethDaniel/mason-tool-installer.nvim' }, -- Added mason-tool-installer
   -- Autocompletion
   { "hrsh7th/nvim-cmp",                 event = 'InsertEnter', },
   { "hrsh7th/cmp-nvim-lsp" },
@@ -215,6 +315,9 @@ M.dependencies = { -- LSP Support
       "saadparwaiz1/cmp_luasnip",
     },
   },
+  -- Formatting and Linting
+  { "mhartington/formatter.nvim" },
+  { "mfussenegger/nvim-lint" },
 }
 
 return M

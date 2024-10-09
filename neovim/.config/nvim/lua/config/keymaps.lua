@@ -1,15 +1,10 @@
 local function map(mode, lhs, rhs, opts)
   opts = opts or { noremap = true }
   opts.silent = opts.silent ~= false
-  if opts.remap and not vim.g.vscode then
-    opts.remap = nil
-  end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
-map("n", "<space>", "<nop>", {
-  noremap = true
-})
+map("n", "<space>", "<nop>")
 
 -- tab works on visual selections
 map("x", "<", "<gv")
