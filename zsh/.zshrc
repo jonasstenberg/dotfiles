@@ -13,8 +13,6 @@ zstyle ':completion:*' insert-tab pending
 # -----------------------
 plugins=(
     common-aliases
-    macos
-    zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -52,8 +50,7 @@ _tmuxinator() {
   return
 }
 
-export PATH="/Users/jonasstenberg/.local/bin:$PATH"
-
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
