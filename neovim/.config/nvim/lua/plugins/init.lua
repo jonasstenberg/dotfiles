@@ -14,5 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins.specs", {
   change_detection = {
     notify = false,
-  },
+  }
 })
+
+vim.treesitter.language.register("bash", "zsh")

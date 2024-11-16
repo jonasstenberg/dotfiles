@@ -22,6 +22,7 @@ function M.config()
       "yaml",
       "vim",
       "vimdoc",
+      "git_config",
     },
     sync_install = false,
     auto_install = true,
@@ -29,6 +30,8 @@ function M.config()
       enable = true,
       additional_vim_regex_highlighting = false,
     },
+    ignore_install = {},
+    modules = {},
   })
 
   require('nvim-ts-autotag').setup()
