@@ -94,8 +94,38 @@ function M.config()
       lspconfig.ts_ls.setup({
         on_attach = function(client, bufnr)
           client.server_capabilities.documentFormattingProvider = false
-          -- You can keep other on_attach configurations here
         end,
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true
+            },
+            suggest = {
+              includeCompletionsForModuleExports = true,
+              includeCompletionsForImportStatements = true,
+              autoImports = true
+            }
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true
+            }
+          }
+        }
       })
     end,
     -- Disable formatting capabilities for pyright
@@ -113,7 +143,6 @@ function M.config()
   require('mason-tool-installer').setup({
     ensure_installed = {
       'eslint_d',
-      'prettier',
       'stylelint',
       'flake8',
       -- Add other tools you need
@@ -228,8 +257,8 @@ function M.config()
       javascript = {
         function()
           return {
-            exe = "prettierd",
-            args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+            exe = "eslint_d",
+            args = { "--fix", "--stdin", "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
             stdin = true,
           }
         end,
@@ -237,8 +266,8 @@ function M.config()
       typescript = {
         function()
           return {
-            exe = "prettierd",
-            args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
+            exe = "eslint_d",
+            args = { "--fix", "--stdin", "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
             stdin = true,
           }
         end,
@@ -300,12 +329,12 @@ M.dependencies = {
   -- LSP Support
   { "windwp/nvim-autopairs" },
   -- { "jose-elias-alvarez/null-ls.nvim" }, -- Removed null-ls
-  { "neovim/nvim-lspconfig",            event = { "BufReadPre", "BufNewFile" } },
-  { 'williamboman/mason.nvim',          build = ':MasonUpdate', },
+  { "neovim/nvim-lspconfig",                    event = { "BufReadPre", "BufNewFile" } },
+  { 'williamboman/mason.nvim',                  build = ':MasonUpdate', },
   { "williamboman/mason-lspconfig.nvim" },
   { 'WhoIsSethDaniel/mason-tool-installer.nvim' }, -- Added mason-tool-installer
   -- Autocompletion
-  { "hrsh7th/nvim-cmp",                 event = 'InsertEnter', },
+  { "hrsh7th/nvim-cmp",                         event = 'InsertEnter', },
   { "hrsh7th/cmp-nvim-lsp" },
   {
     "L3MON4D3/LuaSnip",
