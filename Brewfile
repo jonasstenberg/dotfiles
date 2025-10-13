@@ -8,11 +8,11 @@ brew "fzf"
 brew "git"
 brew "go"
 brew "jq"
-brew "lua-language-server", args: ["HEAD"]
 brew "luarocks"
 brew "neovim", args: ["HEAD"]
 brew "ninja"
 brew "nvm"
+brew "pygments"
 brew "reattach-to-user-namespace"
 brew "ripgrep"
 brew "shellcheck"

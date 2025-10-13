@@ -1,0 +1,5 @@
+theme = Catppuccin Mocha
+font-size = 12
+mouse-hide-while-typing = true
+macos-non-native-fullscreen = true
+window-decoration = true

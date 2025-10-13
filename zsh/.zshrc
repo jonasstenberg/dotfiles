@@ -19,9 +19,9 @@ zstyle ':completion:*' completer _expand _complete
 autoload -Uz compinit
 compinit
 
-# plugins
-# -----------------------
 plugins=(
+    git
+    direnv
     common-aliases
     macos
     zsh-syntax-highlighting
@@ -31,12 +31,6 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 export EDITOR='nvim'
-
-# user configs
-# -----------------------
-# export LANG=en_US.UTF-8
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 source $HOME/.aliases
 source $HOME/.git-aliases
@@ -64,24 +58,41 @@ _tmuxinator() {
 }
 
 export PATH="/Users/jonasstenberg/.local/bin:$PATH"
-export PATH="$HOME/.pyenv/bin:$PATH"
-export PATH="/Users/jonasstenberg/.cargo/bin:$PATH"
 
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/jonasstenberg/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jonasstenberg/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
-eval "$(ssh-agent -s)"
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/jonasstenberg/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jonasstenberg/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
-# export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c/lib/pkgconfig"
-# export LDFLAGS="-L/opt/homebrew/opt/icu4c/lib"
-# export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include"
-# export PATH="/opt/homebrew/opt/icu4c/bin:$PATH"
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# Added by Windsurf - Next
-export PATH="/Users/jonasstenberg/.codeium/windsurf/bin:$PATH"
-
-# add direnv
 eval "$(direnv hook zsh)"
+
+# pnpm
+export PNPM_HOME="/Users/jonasstenberg/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
+# Colima (Docker replacement)
+# See https://github.com/abiosoft/colima
+docker_env() {
+    export DOCKER_HOST="unix://${HOME}/.colima/$1/docker.sock"
+}
+export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE="/var/run/docker.sock"
+# Ryuk testcontainers cleanup doesn't seem to work with Colima socket location yet
+export TESTCONTAINERS_RYUK_DISABLED=true
+
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
