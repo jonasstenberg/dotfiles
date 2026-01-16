@@ -7,7 +7,7 @@ return {
         "prettier", -- JS/TS/JSON formatter
         "eslint_d", -- Fast ESLint
         "typescript-language-server", -- TypeScript LSP
-        "kotlin-language-server", -- Kotlin LSP
+        "kotlin-lsp", -- Kotlin LSP
       },
     },
   },
