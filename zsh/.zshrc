@@ -2,6 +2,9 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
 
+# Prevent oh-my-zsh from automatically setting terminal title
+DISABLE_AUTO_TITLE="true"
+
 # update automatically without asking
 zstyle ':omz:update' mode auto
 # matches case insensitive for lowercase
@@ -96,3 +99,12 @@ export TESTCONTAINERS_RYUK_DISABLED=true
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+
+
+# Added by Antigravity
+export PATH="/Users/jonasstenberg/.antigravity/antigravity/bin:$PATH"
+
+# opencode
+export PATH=/Users/jonasstenberg/.opencode/bin:$PATH
+
+export ENABLE_TOOL_SEARCH=true
