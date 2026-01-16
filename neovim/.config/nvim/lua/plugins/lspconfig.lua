@@ -5,12 +5,13 @@ return {
       servers = { eslint = {} },
       setup = {
         eslint = function()
-          require("lazyvim.util").lsp.on_attach(function(client)
-            if client.name == "eslint" then
-              client.server_capabilities.documentFormattingProvider = true
-            elseif client.name == "vtsls" or client.name == "tsserver" then
-              client.server_capabilities.documentFormattingProvider = false
-            end
+          -- Enable formatting for eslint
+          Snacks.util.lsp.on({ name = "eslint" }, function(_, client)
+            client.server_capabilities.documentFormattingProvider = true
+          end)
+          -- Disable formatting for vtsls/tsserver (let eslint handle it)
+          Snacks.util.lsp.on({ name = "vtsls" }, function(_, client)
+            client.server_capabilities.documentFormattingProvider = false
           end)
         end,
       },

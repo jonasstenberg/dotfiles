@@ -1,11 +1,20 @@
 return {
+  -- Enable the JetBrains kotlin-lsp (config in after/lsp/kotlin_lsp.lua)
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- Disable kotlin_language_server - it's too buggy for monorepos
-        kotlin_lsp = {},
+        kotlin_lsp = {
+          mason = false, -- installed via homebrew, not mason
+        },
       },
+    },
+  },
+  -- Treesitter for Kotlin syntax highlighting
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "kotlin" },
     },
   },
   {
