@@ -21,9 +21,6 @@ map("n", "<esc>", ":noh<return><esc>")
 map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 
--- kepe cursor in one place when jumping up and down
-map("n", "<C-d>", "<C-d>zz")
-map("n", "<C-u>", "<C-u>zz")
 
 -- keep search in the middle
 map("n", "N", "Nzzzv")
