@@ -21,3 +21,5 @@ tags
 
 # .vim workspace configuration
 .vim
+
+**/.claude/settings.local.json
