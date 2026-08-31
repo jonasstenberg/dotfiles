@@ -65,12 +65,6 @@ export PATH="/Users/jonasstenberg/.local/bin:$PATH"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/jonasstenberg/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jonasstenberg/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/jonasstenberg/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jonasstenberg/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
@@ -108,3 +102,23 @@ export PATH="/Users/jonasstenberg/.antigravity/antigravity/bin:$PATH"
 export PATH=/Users/jonasstenberg/.opencode/bin:$PATH
 
 export ENABLE_TOOL_SEARCH=true
+
+alias claude-botler='CLAUDE_CONFIG_DIR=~/.claude-botler claude'
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+
+# bun completions
+[ -s "/Users/jonasstenberg/.bun/_bun" ] && source "/Users/jonasstenberg/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/jonasstenberg/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jonasstenberg/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/jonasstenberg/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jonasstenberg/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
