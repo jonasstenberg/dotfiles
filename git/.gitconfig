@@ -1,10 +1,8 @@
 [user]
   name = Jonas Stenberg
   email = github@stenberg.io
-[credential]
-  helper = osxkeychain
 [hub]
-  protocol = https
+  protocol = ssh
 [color]
   diff = auto
   status = auto
