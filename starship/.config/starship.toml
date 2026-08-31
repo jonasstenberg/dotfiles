@@ -1,10 +1,17 @@
 add_newline = false
 # A minimal left prompt
-format = """$directory$git_branch$git_status$character"""
+format = """$hostname$directory$git_branch$git_status$character"""
 palette = "catppuccin_mocha"
 # move the rest of the prompt to the right
 right_format = """$nodejs$kotlin$postgres$gcloud"""
 command_timeout = 1000
+
+# Shows only over SSH (ssh_only): invisible locally, shows e.g. "devbox" when SSH'd in
+[hostname]
+ssh_only = true
+format = '[$ssh_symbol$hostname]($style) '
+ssh_symbol = " "
+style = "bold peach"
 
 [character]
 vicmd_symbol = "[N] >>>"
