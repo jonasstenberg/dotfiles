@@ -54,11 +54,31 @@ NVM, pnpm, Bun, Android SDK, Google Cloud SDK, Colima, Antigravity, and OpenCode
 are loaded only when their expected files exist. Install these separately when
 you need them; missing optional tools won't break a shell session.
 
+### Local overrides
+
+Machine- or job-specific configuration stays out of this repository. Three hook
+points are read when present and are otherwise ignored:
+
+| Path                              | Purpose                                                     |
+| --------------------------------- | ----------------------------------------------------------- |
+| `~/.config/nvim/lua/plugins/local` | Extra lazy.nvim specs and LazyVim extras (gitignored)      |
+| `~/.zshrc.plugins`                | Extend the oh-my-zsh `plugins` array before it loads        |
+| `~/.zshrc.local`                  | Environment, aliases and completions, sourced last          |
+
+Point them at a separate private repository (for example `~/Development/dotfiles-work`
+with absolute symlinks) and that repository can carry its own `Brewfile`.
+
 ### Fedora notes
 
 - Set Zsh as the login shell after installation with `chsh -s $(command -v zsh)`.
 - The shared Git remote convention is SSH, which works with the 1Password SSH agent.
 - Colima and Finder aliases are enabled only on macOS.
 
-## TODO
-- [ ] Add DAP
+## Neovim
+
+The editor config is [LazyVim](https://www.lazyvim.org) with a small set of
+overrides in `neovim/.config/nvim/lua/plugins/`. Extras are enabled in
+`lua/config/lazy.lua`. Picker, explorer and terminal come from snacks.nvim;
+completion from blink.cmp; Claude Code is integrated through the `ai.claudecode`
+extra (`<leader>a`). Language servers and formatters are installed by mason on
+first launch, so `node` must be on `PATH` (see NVM above).
