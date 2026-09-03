@@ -19,8 +19,7 @@ setopt SHARE_HISTORY              # Share history across all sessions
 setopt HIST_IGNORE_SPACE          # Ignore commands prefixed with a space
 
 zstyle ':completion:*' completer _expand _complete
-autoload -Uz compinit
-compinit
+# compinit is run by oh-my-zsh.sh; do not call it here (doubles startup time)
 
 plugins=(
     git
@@ -46,15 +45,23 @@ export PATH="$HOME/.local/bin:$PATH"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 
+# nvm: loaded lazily on first use, since `nvm use default` costs ~0.4s at startup
 export NVM_DIR="$HOME/.nvm"
 if [[ "$OSTYPE" == darwin* ]]; then
   NVM_HOME="/opt/homebrew/opt/nvm"
 else
   NVM_HOME="$HOME/.nvm"
 fi
-[ -s "$NVM_HOME/nvm.sh" ] && \. "$NVM_HOME/nvm.sh"
-[ -s "$NVM_HOME/bash_completion" ] && \. "$NVM_HOME/bash_completion"
-[ -s "$NVM_HOME/etc/bash_completion.d/nvm" ] && \. "$NVM_HOME/etc/bash_completion.d/nvm"
+_load_nvm() {
+  unset -f nvm node npm npx corepack
+  [ -s "$NVM_HOME/nvm.sh" ] && \. "$NVM_HOME/nvm.sh"
+  [ -s "$NVM_HOME/bash_completion" ] && \. "$NVM_HOME/bash_completion"
+  [ -s "$NVM_HOME/etc/bash_completion.d/nvm" ] && \. "$NVM_HOME/etc/bash_completion.d/nvm"
+}
+for _cmd in nvm node npm npx corepack; do
+  eval "$_cmd() { _load_nvm; $_cmd \"\$@\"; }"
+done
+unset _cmd
 
 command -v starship >/dev/null && eval "$(starship init zsh)"
 command -v zoxide >/dev/null && eval "$(zoxide init zsh)"
