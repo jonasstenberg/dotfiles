@@ -14,17 +14,27 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Machine-local plugins and LazyVim extras, e.g. a work overlay symlinked into
+-- lua/plugins/local (gitignored). See README "Local overrides".
+local local_plugins = {}
+if vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/plugins/local") then
+  local_plugins = { { import = "plugins.local" } }
+end
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import LazyVim extras
-    { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
+    { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
     { import = "lazyvim.plugins.extras.formatting.prettier" },
-    { import = "lazyvim.plugins.extras.ai.copilot-native" },
+    { import = "lazyvim.plugins.extras.ai.claudecode" },
     { import = "lazyvim.plugins.extras.dap.core" },
+    -- machine-local overlay (extras + their tweaks); imported before "plugins"
+    -- so LazyVim's import-order check passes and your own plugins still win
+    unpack(local_plugins),
     -- import/override with your plugins
     { import = "plugins" },
   },
