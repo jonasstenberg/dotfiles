@@ -23,3 +23,17 @@ tags
 .vim
 
 **/.claude/settings.local.json
+
+# Terraform / OpenTofu (safety net; state can contain secrets)
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Python
+__pycache__/
+.venv/
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
