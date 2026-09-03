@@ -4,7 +4,6 @@ return {
     opts = {
       servers = {
         vtsls = {
-          -- Use workspace TypeScript version
           settings = {
             typescript = {
               updateImportsOnFileMove = { enabled = "always" },

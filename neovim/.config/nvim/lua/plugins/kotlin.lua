@@ -1,32 +1,13 @@
 return {
-  -- Enable the JetBrains kotlin-lsp (config in after/lsp/kotlin_lsp.lua)
+  -- JetBrains kotlin-lsp, installed via Homebrew (server config in after/lsp/kotlin_lsp.lua).
+  -- LazyVim's lang.kotlin extra uses the older fwcd kotlin_language_server, so we
+  -- enable kotlin_lsp directly instead of importing that extra.
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
         kotlin_lsp = {
-          mason = false, -- installed via homebrew, not mason
-        },
-      },
-    },
-  },
-  -- Treesitter for Kotlin syntax highlighting
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = { "kotlin" },
-    },
-  },
-  {
-    "saghen/blink.cmp",
-    optional = true,
-    opts = {
-      sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
-        providers = {
-          lsp = {
-            enabled = true,
-          },
+          mason = false,
         },
       },
     },

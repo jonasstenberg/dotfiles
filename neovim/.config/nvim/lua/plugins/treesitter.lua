@@ -1,21 +1,13 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, {
-        "bash",
-        "javascript",
-        "typescript",
-        "tsx",
-        "json",
+    -- LazyVim already installs bash, json, lua, markdown, toml, tsx, typescript, yaml, etc.
+    -- opts_extend merges this list into the defaults.
+    opts = {
+      ensure_installed = {
         "kotlin",
-        "lua",
-        "markdown",
-        "markdown_inline",
         "sql",
-        "yaml",
-        "toml",
-      })
-    end,
+      },
+    },
   },
 }

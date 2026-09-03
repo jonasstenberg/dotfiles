@@ -1,6 +1,7 @@
 return {
   {
     "stevearc/oil.nvim",
+    lazy = false,
     opts = {
       keymaps = {
         ["g?"] = "actions.show_help",
@@ -12,8 +13,6 @@ return {
         ["g."] = "actions.toggle_hidden",
       },
     },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    lazy = false,
     keys = {
       { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
     },

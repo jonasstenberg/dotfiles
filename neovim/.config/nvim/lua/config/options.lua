@@ -1,3 +1,7 @@
 -- Options are automatically loaded before lazy.nvim startup
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
+-- Add any additional options here.
+--
+-- Machine-local or work-specific setup belongs in lua/plugins/local/ (gitignored),
+-- not here. LazyVim `vim.g.lazyvim_*` toggles can be set at the top of the
+-- plugin file that imports the matching extra.
