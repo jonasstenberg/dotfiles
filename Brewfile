@@ -15,6 +15,7 @@ brew "neovim", args: ["HEAD"]
 brew "ninja"
 brew "nvm"
 brew "pygments"
+brew "python"
 brew "reattach-to-user-namespace"
 brew "ripgrep"
 brew "shellcheck"

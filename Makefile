@@ -1,4 +1,4 @@
-.PHONY: install packages packages-macos packages-fedora packages-fedora-optional bundle stow
+.PHONY: install packages packages-macos packages-fedora packages-fedora-optional bundle stow tmux-agent-hooks
 
 OS := $(shell uname -s)
 
@@ -34,7 +34,7 @@ packages-macos:
 packages-fedora:
 	sudo dnf install -y make zsh git gh stow neovim tmux fzf fd-find ripgrep jq \
 		direnv zoxide ShellCheck cmake ninja-build golang luarocks \
-		python3-pygments ruby
+		python3 python3-pygments ruby
 	mkdir -p ~/.local/bin
 	gem install --user-install --bindir ~/.local/bin tmuxinator
 
@@ -62,3 +62,7 @@ $(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting: ~/.oh-my-zsh
 
 stow:
 	stow --verbose --target=$$HOME --restow claude ghostty git neovim starship tmux zsh
+	$(MAKE) tmux-agent-hooks
+
+tmux-agent-hooks:
+	python3 tmux/.config/tmux/scripts/agent-sessions.py install
