@@ -29,3 +29,5 @@
 	defaultBranch = main
 [pull]
 	rebase = true
+[includeIf "gitdir:~/Development/"]
+	path = ~/.gitconfig-development

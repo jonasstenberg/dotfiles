@@ -56,7 +56,7 @@ you need them; missing optional tools won't break a shell session.
 
 ### Local overrides
 
-Machine- or job-specific configuration stays out of this repository. Three hook
+Machine- or job-specific configuration stays out of this repository. Four hook
 points are read when present and are otherwise ignored:
 
 | Path                              | Purpose                                                     |
@@ -64,6 +64,7 @@ points are read when present and are otherwise ignored:
 | `~/.config/nvim/lua/plugins/local` | Extra lazy.nvim specs and LazyVim extras (gitignored)      |
 | `~/.zshrc.plugins`                | Extend the oh-my-zsh `plugins` array before it loads        |
 | `~/.zshrc.local`                  | Environment, aliases and completions, sourced last          |
+| `~/.gitconfig-development`        | Git overrides for repositories under `~/Development/`       |
 
 Point them at a separate private repository (for example `~/Development/dotfiles-work`
 with absolute symlinks) and that repository can carry its own `Brewfile`.
