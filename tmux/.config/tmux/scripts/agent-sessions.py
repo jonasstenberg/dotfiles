@@ -157,8 +157,7 @@ def atomic_write(path, contents):
             temporary.unlink(missing_ok=True)
 
 
-def save(path):
-    table = processes()
+def pane_states():
     fmt = "\t".join([
         "#{session_name}", "#{window_index}", "#{pane_index}",
         "#{pane_pid}", "#{" + OPTION + "}",
@@ -168,10 +167,91 @@ def save(path):
         fields = line.split("\t", 4)
         if len(fields) == 5:
             panes[tuple(fields[:3])] = (int(fields[3]), fields[4])
+    return panes
+
+
+def agent_states(panes, table):
+    tracked, missing = {}, []
+    for key, (root, raw) in panes.items():
+        metadata = live_session(raw, root, table)
+        if metadata:
+            tracked[key] = metadata
+        elif root in table and any(
+            agent_name(process["command"])
+            and process["group"] == table[root]["foreground"]
+            and ancestors(pid, root, table)
+            for pid, process in table.items()
+        ):
+            missing.append("%s:%s.%s" % key)
+    return tracked, missing
+
+
+def notify(message):
+    print(message)
+    run("tmux", "display-message", message)
+
+
+def check():
+    tracked, missing = agent_states(pane_states(), processes())
+    for key, metadata in tracked.items():
+        print("%s:%s.%s" % key, metadata["agent"], metadata["session_id"], "ready")
+    if missing:
+        notify("Missing conversation IDs: " + ", ".join(missing) +
+               ". Reopen those conversations; in Codex, review /hooks first.")
+    else:
+        notify(f"All {len(tracked)} running agent conversations are tracked.")
+    return bool(missing)
+
+
+def last_snapshot():
+    directory = run("tmux", "show-options", "-gqv", "@resurrect-dir").strip()
+    if directory:
+        return Path(os.path.expandvars(directory)).expanduser() / "last"
+    legacy = Path.home() / ".tmux/resurrect"
+    if legacy.is_dir():
+        return legacy / "last"
+    return Path(os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))) / "tmux/resurrect/last"
+
+
+def save_and_exit():
+    tracked, missing = agent_states(pane_states(), processes())
+    if missing:
+        notify("Not shutting down: missing conversation IDs in " + ", ".join(missing) +
+               ". Reopen those conversations; in Codex, review /hooks first.")
+        return 1
+    script = run("tmux", "show-options", "-gqv", "@resurrect-save-script-path").strip()
+    if not script or not Path(script).is_file():
+        raise ValueError("tmux-resurrect save script is unavailable; not shutting down")
+    run(script, "quiet")
+    saved = {}
+    for line in last_snapshot().read_text().splitlines():
+        fields = line.split("\t")
+        if len(fields) == 11 and fields[0] == "pane":
+            saved[(fields[1], fields[2], fields[5])] = fields[10]
+    for key, metadata in tracked.items():
+        expected = ":" + AGENTS[metadata["agent"]] + " " + metadata["session_id"]
+        if saved.get(key) != expected:
+            notify("Not shutting down: snapshot is missing the conversation in %s:%s.%s." % key)
+            return 1
+    current, missing = agent_states(pane_states(), processes())
+    if missing or current != tracked:
+        notify("Not shutting down: conversations changed during save. Run save-and-exit again.")
+        return 1
+    run("tmux", "kill-server")
+    return 0
+
+
+def save(path):
+    table = processes()
+    panes = pane_states()
     original = path.read_text()
     updated = rewrite_snapshot(original, panes, table)
     if updated != original:
         atomic_write(path, updated)
+    _, missing = agent_states(panes, table)
+    if missing:
+        notify("Tmux layout saved, but agent IDs are missing in " + ", ".join(missing) +
+               ". Run :agent-sessions to check.")
 
 
 def install_hooks(home):
@@ -215,18 +295,24 @@ def main():
     saver.add_argument("snapshot", type=Path)
     installer = commands.add_parser("install")
     installer.add_argument("--home", type=Path, default=Path.home())
+    commands.add_parser("check")
+    commands.add_parser("save-and-exit")
     args = parser.parse_args()
     try:
         if args.command == "record":
             record(args.agent)
         elif args.command == "save":
             save(args.snapshot)
+        elif args.command == "check":
+            return int(check())
+        elif args.command == "save-and-exit":
+            return save_and_exit()
         else:
             install_hooks(args.home)
     except (OSError, ValueError, subprocess.SubprocessError) as error:
         print(f"tmux agent sessions: {error}", file=sys.stderr)
         # Metadata hooks must not block prompts or prevent tmux layout saves.
-        return 1 if args.command == "install" else 0
+        return 0 if args.command in {"record", "save"} else 1
     return 0
 
 

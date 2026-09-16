@@ -76,7 +76,8 @@ int main(int argc, char **argv) {
             tmux("run-shell", str(PLUGIN / "resurrect.tmux"))
             config = folder / "agent.conf"
             settings = [line for line in (ROOT / ".config/tmux/tmux.conf").read_text().splitlines()
-                        if line.startswith(("set -g @resurrect-", "set-hook -g client-detached"))]
+                        if line.startswith(("set -g @resurrect-", "set-hook -g client-detached",
+                                            "set -s command-alias[10"))]
             config.write_text("\n".join(settings).replace(
                 '$HOME/.config/tmux/scripts/agent-sessions.py', str(SCRIPT)) + "\n")
             tmux("source-file", str(config))
@@ -94,13 +95,25 @@ int main(int argc, char **argv) {
             for pane, (agent, session_id) in zip(pane_ids, agents):
                 tmux("send-keys", "-t", pane, f"{folder / agent} {session_id}", "Enter")
             wait_for(lambda: all(tmux("show-options", "-pqv", "-t", pane, "@agent-session") for pane in pane_ids))
-            subprocess.run([str(PLUGIN / "scripts/save.sh"), "quiet"], env=env, check=True)
+            # An untracked agent must prevent shutdown, even before the first save.
+            recorded = tmux("show-options", "-pqv", "-t", pane_ids[-1], "@agent-session")
+            tmux("set-option", "-pu", "-t", pane_ids[-1], "@agent-session")
+            subprocess.run(["tmux", "-S", socket, "save-and-exit"], env=env,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            tmux("has-session", "-t", "work")
+            assert not (folder / "saves/last").exists()
+            tmux("set-option", "-p", "-t", pane_ids[-1], "@agent-session", recorded)
+            # Exercise the user-facing alias, without a preceding manual save.
+            subprocess.run(["tmux", "-S", socket, "save-and-exit"], env=env,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            wait_for(lambda: subprocess.run(
+                ["tmux", "-S", socket, "has-session"], env=env,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode != 0)
             snapshot = (folder / "saves/last").read_text()
             for agent, session_id in agents:
                 verb = "--resume" if agent == "claude" else "resume"
                 assert f":{agent} {verb} {session_id}\n" in snapshot, snapshot
 
-            tmux("kill-server")
             env.pop("TMUX", None)
             wait_for(lambda: not Path(socket).exists() or subprocess.run(
                 ["tmux", "-S", socket, "has-session"], env=env,
@@ -123,7 +136,7 @@ int main(int argc, char **argv) {
             wait_for(lambda: (folder / "saves/last").read_text().count(" resume codex-") == 2)
             assert (folder / "saves/last").read_text().count(" resume codex-") == 2
             assert (folder / "saves/last").read_text().count(" --resume claude-") == 2
-            print("PASS: four conversations in one project survived save, fresh-server restore, and re-save.")
+            print("PASS: shutdown refused an untracked agent; save-and-exit preserved four conversations for fresh-server restore.")
         finally:
             subprocess.run(["tmux", "-S", socket, "kill-server"], env=env,
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

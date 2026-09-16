@@ -115,6 +115,37 @@ class AgentSessionsTest(unittest.TestCase):
             self.assertEqual(config.read_text(), first)
             self.assertEqual(len(settings["hooks"]["SessionStart"]), 1)
 
+    def test_check_identifies_untracked_agents(self):
+        panes = dict(self.panes)
+        panes[("work", "1", "3")] = (30, "")
+        tracked, missing = sessions.agent_states(panes, self.table)
+        self.assertEqual(len(tracked), 2)
+        self.assertEqual(missing, ["work:1.3"])
+
+    def test_shutdown_refuses_missing_ids(self):
+        panes = dict(self.panes)
+        panes[("work", "1", "3")] = (30, "")
+        with patch.object(sessions, "pane_states", return_value=panes), \
+                patch.object(sessions, "processes", return_value=self.table), \
+                patch.object(sessions, "notify"), patch.object(sessions, "run") as run:
+            self.assertEqual(sessions.save_and_exit(), 1)
+            run.assert_not_called()
+
+    def test_shutdown_verifies_snapshot_before_killing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "snapshot"
+            path.write_text(row(1) + row(2) + row(3, "claude"))
+            with patch.object(sessions, "pane_states", return_value=self.panes), \
+                    patch.object(sessions, "processes", return_value=self.table), \
+                    patch.object(sessions, "last_snapshot", return_value=path), \
+                    patch.object(sessions, "notify"), \
+                    patch.object(sessions, "run", return_value=str(path)) as run:
+                self.assertEqual(sessions.save_and_exit(), 1)
+                self.assertNotIn(("tmux", "kill-server"), [call.args for call in run.call_args_list])
+                path.write_text(sessions.rewrite_snapshot(path.read_text(), self.panes, self.table))
+                self.assertEqual(sessions.save_and_exit(), 0)
+                self.assertEqual(run.call_args.args, ("tmux", "kill-server"))
+
 
 if __name__ == "__main__":
     unittest.main()

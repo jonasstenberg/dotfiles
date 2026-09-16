@@ -89,7 +89,16 @@ recorded. Reopen existing Claude sessions after installing the hooks. Start
 new conversations normally with `claude` or `codex`; no wrapper is needed.
 
 - Save: `Ctrl-a Ctrl-s` (also every five minutes through continuum and on detach).
+- Save and exit: `Ctrl-a M`, then confirm, or `Ctrl-a :` and `save-and-exit`.
 - Restore: `Ctrl-a Ctrl-r` after starting tmux again.
+- Check tracking: `Ctrl-a :` and `agent-sessions`.
+
+Use **save-and-exit**, rather than `:kill-server`, when shutting down tmux.
+It waits for the save, verifies each running agent's exact resume command in
+the snapshot, and only then stops the server. It refuses to exit if an agent
+hasn't recorded its ID. A direct `kill-server` does not wait for save-on-detach;
+it restores only what was in the last completed save. Tracking a conversation
+in a pane is not enough until a save has persisted it.
 
 The saved snapshot contains an explicit `claude --resume <id>` or
 `codex resume <id>` command for each tracked foreground agent. Session changes
