@@ -34,7 +34,8 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.dap.core" },
     -- machine-local overlay (extras + their tweaks); imported before "plugins"
     -- so LazyVim's import-order check passes and your own plugins still win
-    unpack(local_plugins),
+    -- Keep this as a nested list: unpack({}) here creates a nil gap and skips "plugins".
+    local_plugins,
     -- import/override with your plugins
     { import = "plugins" },
   },
