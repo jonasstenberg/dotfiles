@@ -53,12 +53,13 @@ else
   NVM_HOME="$HOME/.nvm"
 fi
 _load_nvm() {
-  unset -f nvm node npm npx corepack
+  unset -f nvm node npm npx corepack nvim
   [ -s "$NVM_HOME/nvm.sh" ] && \. "$NVM_HOME/nvm.sh"
   [ -s "$NVM_HOME/bash_completion" ] && \. "$NVM_HOME/bash_completion"
   [ -s "$NVM_HOME/etc/bash_completion.d/nvm" ] && \. "$NVM_HOME/etc/bash_completion.d/nvm"
 }
-for _cmd in nvm node npm npx corepack; do
+# Neovim's Mason installers also need Node/npm on the inherited PATH.
+for _cmd in nvm node npm npx corepack nvim; do
   eval "$_cmd() { _load_nvm; $_cmd \"\$@\"; }"
 done
 unset _cmd
