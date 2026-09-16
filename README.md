@@ -128,3 +128,14 @@ overrides in `neovim/.config/nvim/lua/plugins/`. Extras are enabled in
 completion from blink.cmp; Claude Code is integrated through the `ai.claudecode`
 extra (`<leader>a`). Language servers and formatters are installed by mason on
 first launch, so `node` must be on `PATH` (see NVM above).
+
+### Markdown preview
+
+Open a Markdown file and press `Space c p` to toggle a live preview in your
+default browser. You can also use `:MarkdownPreview`, `:MarkdownPreviewStop`,
+or `:MarkdownPreviewToggle`. The preview updates as you edit and scroll.
+
+Lazy installs [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim)
+on first launch and downloads its standalone server, so previewing does not
+require Node.js or Yarn. If that download fails, run
+`:Lazy build markdown-preview.nvim` to retry.
