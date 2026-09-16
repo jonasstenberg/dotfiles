@@ -15,7 +15,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Machine-local plugins and LazyVim extras, e.g. a work overlay symlinked into
--- lua/plugins/local (gitignored). See README "Local overrides".
+-- lua/plugins/local (gitignored).
 local local_plugins = {}
 if vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/plugins/local") then
   local_plugins = { { import = "plugins.local" } }
